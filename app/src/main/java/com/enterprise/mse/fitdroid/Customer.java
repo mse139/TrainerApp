@@ -50,10 +50,15 @@ public class Customer {
     }
 
     public Customer(String name, String address,String phoneNumber, String email) {
+        this();
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.customerName = name;
         this.address = address;
+
+    }
+
+    public Customer() {
         customerID = UUID.randomUUID();
     }
 
