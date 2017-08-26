@@ -2,15 +2,36 @@
     <string name="app_name">Fit Droid</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Username</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Sign inr</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_email">This username is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="login_success">Welcome!</string>
+    <string name="user_name">jdoe</string>
+    <string name="user_password">welcome1</string>
+    <string name="logged_in_label">Logged In:</string>
+
+    <!-- generic button strings -->
+    <string name="create_btn_label">Create</string>
+    <string name="cancel_btn_label">Cancel</string>
+
+    <!-- strings related to sessions -->
+    <string name="session_customer_select_label">Customer:</string>
+    <string name="session_calendar_select_label">Session Date:</string>
+    <string name="session_time_select_label">Session Time:</string>
+    <string name="session_pay_now_label">Pay Now</string>
+    <string name="session_location_label">Location</string>
+    <string name="session_notes_label">Notes</string>
+    <string name="session_status_label">Status</string>
+    <string name="session_choose_date">Select Date</string>
+    <string name="session_choose_time">Select Time</string>
+    <string name="session_pay_btn_label">Pay Now</string>
+
 </resources>
