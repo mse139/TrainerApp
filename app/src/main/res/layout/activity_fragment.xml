@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
+
+
+
     xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,5 +10,20 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_container"
     tools:context="com.enterprise.mse.fitdroid.SessionActivity">
+
+
+
+        <TextView
+            android:id="@+id/loggedInLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logged_in_label"/>
+
+        <TextView
+            android:id="@+id/loggedInUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name"/>
+
 
 </FrameLayout>
