@@ -13,17 +13,7 @@
 
 
 
-        <TextView
-            android:id="@+id/loggedInLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logged_in_label"/>
 
-        <TextView
-            android:id="@+id/loggedInUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_name"/>
 
 
 </FrameLayout>
