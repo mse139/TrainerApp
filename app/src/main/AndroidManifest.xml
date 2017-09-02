@@ -4,12 +4,15 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_fitness_launch"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -23,6 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".SingleFragmentActivity">
+        </activity>
+        <activity android:name=".SessionActivity">
+        </activity>
+        <activity android:name=".CustomerListActivity"></activity>
+        <activity android:name=".BillingActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SessionListActivity"></activity>
+        <activity android:name=".ReceiptActivity"></activity>
+
     </application>
 
 </manifest>
