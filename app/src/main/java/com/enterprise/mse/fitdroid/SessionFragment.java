@@ -45,7 +45,7 @@ public class SessionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG,"oncCreate called");
         // check for arguments
         Bundle args = getArguments();
 

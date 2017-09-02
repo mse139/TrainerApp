@@ -3,6 +3,8 @@ package com.enterprise.mse.fitdroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,8 @@ public class SessionListFragment extends Fragment {
         return view;
     }
 
+
+
     // updates the holder with information from the session
     private void updateUI() {
         // get the session list  instance
@@ -56,6 +60,7 @@ public class SessionListFragment extends Fragment {
         } else {
             mAdapter.notifyItemChanged(lastClickedRow);
             lastClickedRow = -1;
+            mSessionRecyclerView.setAdapter(mAdapter);
         }
 
 
@@ -65,6 +70,7 @@ public class SessionListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume called");
         updateUI();
     }
 
@@ -99,13 +105,21 @@ public class SessionListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Log.d(TAG,"row clicked for " + mSession.getSessionID());
-            Intent intent = SessionActivity.newIntent(getActivity(),mSession.getSessionID()
-            );
+          //  Intent intent = SessionActivity.newIntent(getActivity(),mSession.getSessionID());
             // store the row clicked
             lastClickedRow = getAdapterPosition();
 
             // start the activity and expect a result
-            startActivity(intent);
+           // startActivity(intent);
+
+            if (getActivity().findViewById(R.id.main_fragment_container) != null ) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment initial =  SessionFragment.newInstance(mSession.getSessionID());
+                ft.addToBackStack(null);
+                ft.replace(R.id.main_fragment_container,initial);
+                ft.commit();
+            }
 
         }
 
