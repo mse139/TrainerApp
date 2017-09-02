@@ -12,8 +12,6 @@ public class Customer {
     private String customerName;
     private String phoneNumber;
     private UUID    customerID;
-
-
     private String address;
     private String email;
 
@@ -49,6 +47,8 @@ public class Customer {
         this.address = address;
     }
 
+
+    public UUID getCustomerID(){return this.customerID;}
     public Customer(String name, String address,String phoneNumber, String email) {
         this();
         this.email = email;
@@ -62,4 +62,8 @@ public class Customer {
         customerID = UUID.randomUUID();
     }
 
+    public Customer(String name) {
+        this();
+        this.customerName = name;
+    }
 }

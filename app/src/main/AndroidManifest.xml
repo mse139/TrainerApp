@@ -30,6 +30,12 @@
         </activity>
         <activity android:name=".SessionActivity">
         </activity>
+        <activity android:name=".CustomerListActivity"></activity>
+        <activity android:name=".BillingActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SessionListActivity"></activity>
+        <activity android:name=".ReceiptActivity"></activity>
+
     </application>
 
 </manifest>

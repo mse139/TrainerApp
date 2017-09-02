@@ -1,5 +1,6 @@
 package com.enterprise.mse.fitdroid;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,16 +13,26 @@ public class Session {
     private UUID sessionID;
     private UUID customerID;
     private Date sessionDateTime;
+    private Date completedDate;
     private boolean complete;
     private boolean paid;
     private String notes;
     private double cost;
+    // payment info
+    private UUID paymentMethodID;
+    private Date paymentDate;
+    private double paymentAmount;
+    //TODO:  signature object
+
+
+
     private String location;
 
 
     // default ctor
     public Session() {
         sessionID = UUID.randomUUID();
+
     }
 
     // base constructor
@@ -87,4 +98,43 @@ public class Session {
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public UUID getSessionID() {return this.sessionID;}
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Date getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public double getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(double paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public String getSessionDate() {
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(this.sessionDateTime);
+    }
 }
+

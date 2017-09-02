@@ -23,7 +23,7 @@ public class PaymentMethod {
     public PaymentMethod(String nameOnPayment,
                          String cardNumber,
                          Date expirationDate,
-                         String cvv,
+
                          String billingAddress,
                          String billingCity,
                          String billingState,
@@ -31,12 +31,16 @@ public class PaymentMethod {
         this.nameOnPayment = nameOnPayment;
         this.cardNumber =cardNumber;
         this.expirationDate = expirationDate;
-        this.cvv = cvv;
+
         this.billingAddress = billingAddress;
         this.billingCity = billingCity;
         this.billingState = billingState;
         this.billingZIP = billingZIP;
 
+        this.paymentID = UUID.randomUUID();
+    }
+
+    public PaymentMethod() {
         this.paymentID = UUID.randomUUID();
     }
 
@@ -64,13 +68,7 @@ public class PaymentMethod {
         this.expirationDate = expirationDate;
     }
 
-    public String getCvv() {
-        return cvv;
-    }
 
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
 
     public String getBillingAddress() {
         return billingAddress;

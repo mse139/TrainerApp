@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.UUID;
+
 /**
  * Created by mike on 8/24/17.
  * This is the Session controller
@@ -26,6 +28,7 @@ public class SessionFragment extends Fragment {
     private Session mSession;
 
     private static final String TAG = "SessionFragment";
+    private static final String ARG_SESSION_ID = "sessionID";
 
     // UI controls
     private TextView mDatePicker;
@@ -35,13 +38,32 @@ public class SessionFragment extends Fragment {
     private Button mActionButton;
     private Spinner mCustomer;
     private EditText mNotes;
+    private EditText mLocation;
+    private boolean newSession;
 
     // onCreate method
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSession = new Session();
+        // check for arguments
+        Bundle args = getArguments();
+
+        if(args != null && args.containsKey(ARG_SESSION_ID)) {
+            // this is an existing session
+            // get the session id argument
+            UUID sessionID = (UUID)getArguments().getSerializable(ARG_SESSION_ID);
+            Log.d(TAG,"session to get " + sessionID);
+            mSession = SessionList.getSessionList(getActivity()).getSession(sessionID);
+            Log.d(TAG,"session retrieved " + mSession.getSessionID());
+            newSession = false;
+
+        } else{
+            // new session, so create a blank session
+            mSession = new Session();
+            newSession = true;
+        }
+
     }
 
 
@@ -60,6 +82,21 @@ public class SessionFragment extends Fragment {
         mActionButton = (Button) v.findViewById(R.id.session_action_button);
         mCustomer   = (Spinner) v.findViewById(R.id.session_customer_spinner);
         mNotes = (EditText)v.findViewById(R.id.session_notes);
+        mLocation  = (EditText)v.findViewById(R.id.session_location_text);
+
+        if (!newSession){
+            // set values if mSession has them
+            mDatePicker.setText(mSession.getSessionDate());
+            mNotes.setText(mSession.getNotes());
+            mLocation.setText(mSession.getLocation());
+        }
+
+
+        // set the action button label
+        if(newSession)
+            mActionButton.setText(R.string.action_btn_create);
+        else
+            mActionButton.setText(R.string.action_btn_update);
 
         // add listeners to components
         mDatePicker.setOnTouchListener(new View.OnTouchListener() {
@@ -122,7 +159,22 @@ public class SessionFragment extends Fragment {
             }
         });
 
+        mLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    mSession.setLocation(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
 
@@ -130,5 +182,18 @@ public class SessionFragment extends Fragment {
         return v;
 
 
+    }
+
+    // newInstance - returns a new session with the sessionID
+    public static SessionFragment newInstance(UUID sessionID) {
+
+        SessionFragment fragment = new SessionFragment();
+        if(sessionID != null) {
+            Bundle args = new Bundle();
+            args.putSerializable(ARG_SESSION_ID, sessionID);
+            fragment.setArguments(args);
+        }
+
+        return fragment;
     }
 }

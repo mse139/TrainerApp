@@ -44,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final String LOGGED_IN_USER_KEY = "com.enterprise.mse.fitdroid.loggedinuser";
+
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -191,6 +193,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // start an activity
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            intent.putExtra(LOGGED_IN_USER_KEY,email);
             startActivity(intent);
         }
     }
