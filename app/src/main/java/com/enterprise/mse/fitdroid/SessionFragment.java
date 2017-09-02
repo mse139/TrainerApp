@@ -1,6 +1,9 @@
 package com.enterprise.mse.fitdroid;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Layout;
@@ -11,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,6 +33,7 @@ public class SessionFragment extends Fragment {
 
     private static final String TAG = "SessionFragment";
     private static final String ARG_SESSION_ID = "sessionID";
+    private static final int REQUEST_TIME = 1;
 
     // UI controls
     private TextView mDatePicker;
@@ -103,6 +108,8 @@ public class SessionFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.d(TAG,"mDatePicker touched");
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getFragmentManager(),"datePicker");
                 //TODO - show calendar
                 return false;
             }
@@ -112,7 +119,9 @@ public class SessionFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.d(TAG,"mTimePicker touched");
+                DialogFragment timePicker = new TimePickerFragment();
 
+                timePicker.show(getFragmentManager(),"timePicker");
                 //TODO show time picker
                 return false;
             }
@@ -183,6 +192,8 @@ public class SessionFragment extends Fragment {
 
 
     }
+
+
 
     // newInstance - returns a new session with the sessionID
     public static SessionFragment newInstance(UUID sessionID) {

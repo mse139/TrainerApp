@@ -33,4 +33,6 @@ public class SessionActivity extends SingleFragmentActivity {
         return intent;
     }
 
+
+
 }

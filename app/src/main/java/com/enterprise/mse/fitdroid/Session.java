@@ -1,5 +1,6 @@
 package com.enterprise.mse.fitdroid;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class Session {
     private boolean paid;
     private String notes;
     private double cost;
+    private String sessionTime;
     // payment info
     private UUID paymentMethodID;
     private Date paymentDate;
@@ -135,6 +137,14 @@ public class Session {
 
     public String getSessionDate() {
         return DateFormat.getDateInstance(DateFormat.MEDIUM).format(this.sessionDateTime);
+    }
+
+    public String getSessionTime() {
+        return sessionTime;
+    }
+
+    public void setSessionTime(String sessionTime) {
+        this.sessionTime = sessionTime;
     }
 }
 
