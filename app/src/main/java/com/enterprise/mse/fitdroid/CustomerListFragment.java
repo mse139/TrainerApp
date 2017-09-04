@@ -88,9 +88,16 @@ public class CustomerListFragment extends Fragment {
             Log.d(TAG,"record clicked");
             //TODO - wire up customer pager
             // create the pager intent
-           Intent intent = CustomerPagerActivity.newIntent(getActivity(),mCustomer.getCustomerID());
+           //Intent intent = CustomerPagerActivity.newIntent(getActivity(),mCustomer.getCustomerID());
 
-           startActivity(intent);
+            if (getActivity().findViewById(R.id.main_fragment_container) != null ) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment initial = new CustomerListFragment();
+                ft.replace(R.id.main_fragment_container,initial);
+                ft.commit();
+            }
+
 
 
         }

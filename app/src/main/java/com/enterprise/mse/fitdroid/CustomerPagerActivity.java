@@ -27,13 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CustomerPagerActivity extends AppCompatActivity {
+public class CustomerPagerActivity extends Fragment {
 
     private static final String TAG = "CustomerPagerActivity";
     private CustomerSectionsPagerAdapter mCustomerSectionsPagerAdapter;
-
+    private static final String ARG_CUSTOMER_ID = "customerID";
     private ViewPager mViewPager;
 
+    /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +51,26 @@ public class CustomerPagerActivity extends AppCompatActivity {
 
 
     }
+    */
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.customer_main_layout,container,false);
+
+        mCustomerSectionsPagerAdapter = new CustomerSectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        mViewPager = (ViewPager) getActivity().findViewById(R.id.customer_main_layout);
+        setupViewPager(mViewPager);
+
+        return v;
+    }
+
+
+
 
     private void setupViewPager(ViewPager viewPager) {
 
         // setup the adapters
-        CustomerSectionsPagerAdapter adapter = new CustomerSectionsPagerAdapter(getSupportFragmentManager());
+        CustomerSectionsPagerAdapter adapter = new CustomerSectionsPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new CustomerFragment(),"Information");
         adapter.addFragment(new SessionListFragment(),"Sessions");
         adapter.addFragment(new BillingFragment(),"Billing");
@@ -89,8 +105,19 @@ public class CustomerPagerActivity extends AppCompatActivity {
         }
     }
 
-    public Intent newIntent(Context context, UUID customerID) {
+    public static CustomerPagerActivity newInstance(UUID customerID) {
 
+        CustomerPagerActivity fragment = new CustomerPagerActivity();
+
+        // setup the bundle to accept the customer arg
+        Bundle args = new Bundle();
+
+        if (customerID != null) {
+            args.putSerializable(ARG_CUSTOMER_ID,customerID);
+
+        }
+        fragment.setArguments(args);
+        return fragment;
     }
 
 }

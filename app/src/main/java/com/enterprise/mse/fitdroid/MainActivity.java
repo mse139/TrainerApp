@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             Fragment initial = new CustomerListFragment();
+            ft.addToBackStack("CustomerList");
             ft.replace(R.id.main_fragment_container,initial);
             ft.commit();
         }
