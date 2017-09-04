@@ -30,12 +30,15 @@
         </activity>
         <activity android:name=".SessionActivity">
         </activity>
-        <activity android:name=".CustomerListActivity"></activity>
-        <activity android:name=".BillingActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SessionListActivity"></activity>
-        <activity android:name=".ReceiptActivity"></activity>
-
+        <activity android:name=".CustomerListActivity"/>
+        <activity android:name=".BillingActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".SessionListActivity"/>
+        <activity android:name=".ReceiptActivity"/>
+        <activity
+            android:name=".CustomerPagerActivity"
+            android:label="@string/title_activity_customer_pager"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

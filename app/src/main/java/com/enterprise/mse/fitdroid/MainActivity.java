@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity {
         if (findViewById(R.id.main_fragment_container) != null ) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            Fragment initial = new SessionListFragment();
+            Fragment initial = new CustomerListFragment();
             ft.replace(R.id.main_fragment_container,initial);
             ft.commit();
         }

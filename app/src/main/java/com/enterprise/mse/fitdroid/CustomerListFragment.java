@@ -1,9 +1,13 @@
 package com.enterprise.mse.fitdroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,8 @@ public class CustomerListFragment extends Fragment {
     private RecyclerView mCustomerRecyclerView;
     private CustomerAdapter mAdapter;
     private static final String TAG = "CustomerListFragment";
+    private final static String ARG_CUSTOMER = "customerID";
+    private int lastClickedRow = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,11 +47,14 @@ public class CustomerListFragment extends Fragment {
         List<Customer> customers = customerList.getCustomers();
 
         mAdapter = new CustomerAdapter(customers);
+
+
         mCustomerRecyclerView.setAdapter(mAdapter);
+
     }
 
     //@CustomerHolder:  holds an individual customer line
-    private class CustomerHolder extends RecyclerView.ViewHolder {
+    private class CustomerHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // UI elements for each customer item
 
         private TextView mCustomerName;
@@ -59,7 +68,7 @@ public class CustomerListFragment extends Fragment {
             // get references to UI components
             mCustomerName = (TextView) itemView.findViewById(R.id.customer_list_name);
             mCustomerAvatar = (ImageView) itemView.findViewById(R.id.customer_list_avatar);
-
+            itemView.setOnClickListener(this);
 
         }
 
@@ -71,9 +80,23 @@ public class CustomerListFragment extends Fragment {
 
 
         }
+
+        // clicking of row will activate that customer's records
+        @Override
+        public void onClick(View view) {
+            lastClickedRow = getAdapterPosition();
+            Log.d(TAG,"record clicked");
+            //TODO - wire up customer pager
+            // create the pager intent
+           Intent intent = CustomerPagerActivity.newIntent(getActivity(),mCustomer.getCustomerID());
+
+           startActivity(intent);
+
+
+        }
     }
         //@CustomerAdapeter:  customer list adapter
-        private class CustomerAdapter extends RecyclerView.Adapter<CustomerHolder>{
+        private class CustomerAdapter extends RecyclerView.Adapter<CustomerHolder> {
 
             private List<Customer> mCustomers;
 
@@ -99,6 +122,7 @@ public class CustomerListFragment extends Fragment {
             public int getItemCount() {
                 return mCustomers.size();
             }
+
 
         }
 

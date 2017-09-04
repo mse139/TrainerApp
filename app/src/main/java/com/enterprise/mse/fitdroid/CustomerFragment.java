@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.UUID;
+
 /**
  * Created by mikeellis on 8/26/17.
  * this is the controller for the customer info panel
@@ -23,6 +25,8 @@ public class CustomerFragment extends Fragment {
 
     private Customer mCustomer;
     private final String TAG = "CustomerFragment";
+    private final static String ARG_CUSTOMER_ID = "customerID";
+    private boolean mNewCustomer;
 
     //UI controls
     private EditText mCustomerName;
@@ -38,7 +42,17 @@ public class CustomerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCustomer = new Customer();
+        Bundle args = getArguments();
+        if(args != null && args.containsKey(ARG_CUSTOMER_ID)) {
+            UUID customerID = (UUID)args.getSerializable(ARG_CUSTOMER_ID);
+            mCustomer = CustomerList.getCustomerList(getActivity()).getCustomer(customerID);
+            mNewCustomer = false;
+        } else {
+            Log.d(TAG,"creating new customer");
+            mCustomer = new Customer();
+            mNewCustomer = true;
+        }
+
     }
 
     // onCreateView
@@ -56,6 +70,14 @@ public class CustomerFragment extends Fragment {
         mAddImage = (ImageView) v.findViewById(R.id.customer_add_img);
         mSaveButton = (Button) v.findViewById(R.id.customer_save_btn);
 
+        // if existing customer, fill the values
+        if(mNewCustomer) {
+            mCustomerName.setText(mCustomer.getCustomerName());
+            mCustomerEmail.setText(mCustomer.getEmail());
+            mCustomerAddr.setText(mCustomer.getAddress());
+            mCustomerPhone.setText(mCustomer.getPhoneNumber());
+            //TODO image
+        }
         // add all the listeners
         mCustomerName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,5 +167,20 @@ public class CustomerFragment extends Fragment {
         });
 
         return v;
+    }
+
+
+    // return new instance using customer id
+    public static CustomerFragment newInstance(UUID customerID) {
+        // create a new customer fragment
+        CustomerFragment fragment = new CustomerFragment();
+        // if customerID supplied, place it in an args bundle
+        if(customerID != null) {
+            Bundle args = new Bundle();
+            args.putSerializable(ARG_CUSTOMER_ID,customerID);
+            fragment.setArguments(args);
+        }
+
+        return fragment;
     }
 }

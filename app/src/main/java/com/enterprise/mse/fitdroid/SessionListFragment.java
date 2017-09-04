@@ -28,6 +28,7 @@ public class SessionListFragment extends Fragment {
     private RecyclerView mSessionRecyclerView;
     private SessionAdapter mAdapter;
     private static final String TAG = "SessionListFragment";
+    private static final String ARG_LIST_MODE = "listMode";
     private int lastClickedRow = -1;
 
     @Override
@@ -50,6 +51,7 @@ public class SessionListFragment extends Fragment {
         // get the session list  instance
         SessionList sessionsList = SessionList.getSessionList(getActivity());
         // get the list of sessions
+        //TODO - list mode by user or by all
         List<Session> sessions = sessionsList.getSessions();
 
         // get the list adapter
