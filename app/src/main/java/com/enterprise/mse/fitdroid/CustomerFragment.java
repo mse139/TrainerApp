@@ -71,7 +71,7 @@ public class CustomerFragment extends Fragment {
         mSaveButton = (Button) v.findViewById(R.id.customer_save_btn);
 
         // if existing customer, fill the values
-        if(mNewCustomer) {
+        if(!mNewCustomer) {
             mCustomerName.setText(mCustomer.getCustomerName());
             mCustomerEmail.setText(mCustomer.getEmail());
             mCustomerAddr.setText(mCustomer.getAddress());
@@ -168,6 +168,7 @@ public class CustomerFragment extends Fragment {
 
         return v;
     }
+
 
 
     // return new instance using customer id

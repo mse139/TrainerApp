@@ -33,47 +33,52 @@ public class CustomerPagerActivity extends Fragment {
     private CustomerSectionsPagerAdapter mCustomerSectionsPagerAdapter;
     private static final String ARG_CUSTOMER_ID = "customerID";
     private ViewPager mViewPager;
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG,"starting");
-        setContentView(R.layout.customer_main_layout);
-
-        mCustomerSectionsPagerAdapter = new CustomerSectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.customer_main_layout);
-        setupViewPager(mViewPager);
-
-        // setup the tabs with pager
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.customer_tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+    private UUID mCustomerID;
+    private static final int CUSTOMER_INFO_PAGE = 0;
+    private static final int CUSTOMER_SESSION_PAGE = 1;
+    private static final int CUSTOMER_BILLING_PAGE = 2;
 
 
-    }
-    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG,"onCreateView called");
         View v = inflater.inflate(R.layout.customer_main_layout,container,false);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG,"onActivityCreated called");
+        Bundle args = getArguments();
+
+        if(args != null && args.containsKey(ARG_CUSTOMER_ID) ) {
+            mCustomerID = (UUID)args.getSerializable(ARG_CUSTOMER_ID);
+            Log.d(TAG,"customer id " + mCustomerID);
+
+        }
 
         mCustomerSectionsPagerAdapter = new CustomerSectionsPagerAdapter(getActivity().getSupportFragmentManager());
         mViewPager = (ViewPager) getActivity().findViewById(R.id.customer_main_layout);
         setupViewPager(mViewPager);
 
-        return v;
+        TabLayout tabLayout = (TabLayout)getActivity().findViewById(R.id.customer_tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
     }
 
 
 
 
     private void setupViewPager(ViewPager viewPager) {
+        Log.d(TAG,"setupViewPager called");
 
         // setup the adapters
         CustomerSectionsPagerAdapter adapter = new CustomerSectionsPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new CustomerFragment(),"Information");
-        adapter.addFragment(new SessionListFragment(),"Sessions");
-        adapter.addFragment(new BillingFragment(),"Billing");
+        adapter.addFragment(CustomerFragment.newInstance(mCustomerID),getString(R.string.customer_tab_info_label));
+        adapter.addFragment(SessionListFragment.newInstance(mCustomerID),getString(R.string.customer_tab_sessions_label));
+        adapter.addFragment(new BillingFragment(),getString(R.string.customer_tab_billing_label));
 
         // set the adapter
         viewPager.setAdapter(adapter);
@@ -103,6 +108,12 @@ public class CustomerPagerActivity extends Fragment {
         public int getCount() {
             return mFragmentList.size();
         }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
+
     }
 
     public static CustomerPagerActivity newInstance(UUID customerID) {

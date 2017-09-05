@@ -110,7 +110,7 @@ public class SessionFragment extends Fragment {
                 Log.d(TAG,"mDatePicker touched");
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getFragmentManager(),"datePicker");
-                //TODO - show calendar
+                //TODO - get result from date picker
                 return false;
             }
         });
@@ -122,7 +122,7 @@ public class SessionFragment extends Fragment {
                 DialogFragment timePicker = new TimePickerFragment();
 
                 timePicker.show(getFragmentManager(),"timePicker");
-                //TODO show time picker
+                //TODO get result from time picker
                 return false;
             }
         });

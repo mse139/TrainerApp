@@ -2,9 +2,11 @@ package com.enterprise.mse.fitdroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +30,7 @@ public class CustomerListFragment extends Fragment {
     private static final String TAG = "CustomerListFragment";
     private final static String ARG_CUSTOMER = "customerID";
     private int lastClickedRow = -1;
+    private FloatingActionButton mCustomerAddBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +40,23 @@ public class CustomerListFragment extends Fragment {
 
         mCustomerRecyclerView = (RecyclerView) view.findViewById(R.id.customer_recycler_view);
         mCustomerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // get the reference to the add button
+        mCustomerAddBtn = (FloatingActionButton)view.findViewById(R.id.customer_add_btn);
+        // add the listener
+        mCustomerAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,"customer add btn clicked");
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment fragment = CustomerFragment.newInstance(null);
+                ft.addToBackStack(null);
+                ft.replace(R.id.main_fragment_container,fragment);
+                ft.commit();
+            }
+        });
+
         updateUI();
         return view;
     }
@@ -50,6 +70,13 @@ public class CustomerListFragment extends Fragment {
 
 
         mCustomerRecyclerView.setAdapter(mAdapter);
+
+        if(lastClickedRow >=0){
+            mAdapter.notifyItemChanged(lastClickedRow);
+            lastClickedRow = -1;
+        }
+
+
 
     }
 
@@ -85,15 +112,15 @@ public class CustomerListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             lastClickedRow = getAdapterPosition();
-            Log.d(TAG,"record clicked");
-            //TODO - wire up customer pager
+            Log.d(TAG,"record clicked " + mCustomer.getCustomerID());
+
             // create the pager intent
-           //Intent intent = CustomerPagerActivity.newIntent(getActivity(),mCustomer.getCustomerID());
 
             if (getActivity().findViewById(R.id.main_fragment_container) != null ) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Fragment initial = new CustomerListFragment();
+                Fragment initial =  CustomerPagerActivity.newInstance(mCustomer.getCustomerID());
+                ft.addToBackStack("Customer List");
                 ft.replace(R.id.main_fragment_container,initial);
                 ft.commit();
             }

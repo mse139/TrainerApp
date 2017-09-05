@@ -44,4 +44,9 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <!-- customer tab strings -->
+    <string name="customer_tab_info_label">Information</string>
+    <string name="customer_tab_sessions_label">Sessions</string>
+    <string name="customer_tab_billing_label">Billing</string>
+
 </resources>

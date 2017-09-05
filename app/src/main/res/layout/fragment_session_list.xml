@@ -9,6 +9,8 @@
                                             android:layout_width="match_parent"
                                             xmlns:app="http://schemas.android.com/apk/res-auto"
                                             android:id="@+id/session_recycler_view"
+                                            android:paddingBottom="48dp"
+                                            android:clipToPadding="false"
                                             android:layout_height="match_parent">
 
 
@@ -19,11 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         android:id ="@+id/session_add_btn"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@id/session_recycler_view"
-        app:layout_anchorGravity="bottom|right|end"
+app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add"/>
 
 
