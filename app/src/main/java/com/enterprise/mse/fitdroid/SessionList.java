@@ -79,4 +79,9 @@ public class SessionList {
 
         return list;
     }
+
+    // add a new session
+    public void addSession(Session s) {
+        mSessionList.add(s);
+    }
 }

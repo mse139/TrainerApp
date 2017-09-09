@@ -48,9 +48,11 @@ public class CustomerListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"customer add btn clicked");
+                Customer customer = new Customer();
+                CustomerList.getCustomerList(getActivity()).addCustomer(customer);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Fragment fragment = CustomerFragment.newInstance(null);
+                Fragment fragment = CustomerFragment.newInstance(customer.getCustomerID());
                 ft.addToBackStack(null);
                 ft.replace(R.id.main_fragment_container,fragment);
                 ft.commit();

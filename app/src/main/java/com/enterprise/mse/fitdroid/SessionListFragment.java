@@ -57,11 +57,13 @@ public class SessionListFragment extends Fragment {
             public void onClick(View view) {
                 Log.d(TAG,"FAB clicked");
                 // create a new session activity
+                Session session = new Session();
+                SessionList.getSessionList(getActivity()).addSession(session);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Fragment session = SessionFragment.newInstance(null);
+                Fragment fragment = SessionFragment.newInstance(session.getSessionID());
                 ft.addToBackStack(null);
-                ft.replace(R.id.main_fragment_container,session);
+                ft.replace(R.id.main_fragment_container,fragment);
                 ft.commit();
 
             }
@@ -82,9 +84,7 @@ public class SessionListFragment extends Fragment {
         // get the session list  instance
         SessionList sessionsList = SessionList.getSessionList(getActivity());
         // get the list of sessions
-        //TODO - list mode by user or by all
         List<Session> sessions ;
-
         // if customerID is not null, then we are in customer mode
         if(mCustomerID != null) {
             // filter the list
@@ -154,8 +154,7 @@ public class SessionListFragment extends Fragment {
             // store the row clicked
             lastClickedRow = getAdapterPosition();
 
-            // start the activity and expect a result
-           // startActivity(intent);
+          // start the fragment
 
             if (getActivity().findViewById(R.id.main_fragment_container) != null ) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
