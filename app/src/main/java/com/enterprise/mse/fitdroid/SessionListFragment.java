@@ -2,6 +2,7 @@ package com.enterprise.mse.fitdroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by mike on 8/29/17.
@@ -28,12 +31,43 @@ public class SessionListFragment extends Fragment {
     private RecyclerView mSessionRecyclerView;
     private SessionAdapter mAdapter;
     private static final String TAG = "SessionListFragment";
+    private static final String ARG_LIST_MODE = "listMode";
+    private static final String ARG_CUSTOMER_ID = "customerID";
     private int lastClickedRow = -1;
+    private UUID mCustomerID;
+    private FloatingActionButton mSessionAddBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflate the session list fragment ui
         View view = inflater.inflate(R.layout.fragment_session_list,container,false);
+
+        // get the arguments, if any
+        Bundle args = getArguments();
+        if(args != null && args.containsKey(ARG_CUSTOMER_ID)){
+            mCustomerID = (UUID) args.getSerializable(ARG_CUSTOMER_ID);
+            Log.d(TAG,"getting customer ID " + mCustomerID);
+        }
+
+        // get a reference to the action button
+        mSessionAddBtn = view.findViewById(R.id.session_add_btn);
+        // add the listener to the button to open a new session screen
+        mSessionAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,"FAB clicked");
+                // create a new session activity
+                Session session = new Session();
+                SessionList.getSessionList(getActivity()).addSession(session);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment fragment = SessionFragment.newInstance(session.getSessionID());
+                ft.addToBackStack(null);
+                ft.replace(R.id.main_fragment_container,fragment);
+                ft.commit();
+
+            }
+        });
 
         // add the view to the recycler view and set teh layout
         mSessionRecyclerView = (RecyclerView) view.findViewById(R.id.session_recycler_view);
@@ -50,7 +84,18 @@ public class SessionListFragment extends Fragment {
         // get the session list  instance
         SessionList sessionsList = SessionList.getSessionList(getActivity());
         // get the list of sessions
-        List<Session> sessions = sessionsList.getSessions();
+        List<Session> sessions ;
+        // if customerID is not null, then we are in customer mode
+        if(mCustomerID != null) {
+            // filter the list
+            Log.d(TAG,"getting the filtered list");
+            sessions = sessionsList.getSessionsByCustomer(mCustomerID);
+
+        } else
+            // get full list
+                sessions = sessionsList.getSessions();
+
+        Log.d(TAG,"sessions size is " + sessions.size());
 
         // get the list adapter
         if(mAdapter == null ) {
@@ -109,8 +154,7 @@ public class SessionListFragment extends Fragment {
             // store the row clicked
             lastClickedRow = getAdapterPosition();
 
-            // start the activity and expect a result
-           // startActivity(intent);
+          // start the fragment
 
             if (getActivity().findViewById(R.id.main_fragment_container) != null ) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -182,5 +226,22 @@ public class SessionListFragment extends Fragment {
         public int getItemCount() {
             return mSessions.size();
         }
+    }
+
+    // new instance of the session list
+    public static SessionListFragment newInstance(UUID customerID) {
+
+        // create the new list - all records
+        SessionListFragment fragment = new SessionListFragment();
+        if (customerID != null) {
+            Log.d(TAG,"setting session customer ID to " + customerID);
+            // put the args in the bundle
+            Bundle args = new Bundle();
+            args.putSerializable(ARG_CUSTOMER_ID,customerID);
+            fragment.setArguments(args);
+        }
+
+        return fragment;
+
     }
 }

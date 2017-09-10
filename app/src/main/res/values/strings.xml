@@ -30,7 +30,7 @@
     <string name="session_calendar_select_label">Session Date:</string>
     <string name="session_time_select_label">Session Time:</string>
     <string name="session_pay_now_label">Pay Now</string>
-    <string name="session_location_label">Location</string>
+    <string name="session_location_label">Location:</string>
     <string name="session_notes_label">Notes</string>
     <string name="session_status_label">Status</string>
     <string name="session_choose_date">Select Date</string>
@@ -38,7 +38,26 @@
     <string name="session_pay_btn_label">Pay Now</string>
     <string name="session_complete">Complete</string>
     <string name="session_incomplete">Incomplete</string>
-<string name="session_paid">Paid</string>
+    <string name="session_paid">Paid</string>
     <string name="session_unpaid">Unpaid</string>
+    <string name="title_activity_customer_pager">CustomerPagerActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
+    <!-- customer tab strings -->
+    <string name="customer_tab_info_label">Information</string>
+    <string name="customer_tab_sessions_label">Sessions</string>
+    <string name="customer_tab_billing_label">Billing</string>
+
+    <string name="date_picker_title">Select Session Date</string>
+    <string name="time_picker_title">Select Session Time</string>
+
+    <string name="action_drawer_open"></string>
+    <string name="action_drawer_close"></string>
+    <string name="title_activity_test">Test</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="logout_message">Logging Out</string>
 </resources>

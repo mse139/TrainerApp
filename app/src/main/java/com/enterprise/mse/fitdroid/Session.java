@@ -2,6 +2,7 @@ package com.enterprise.mse.fitdroid;
 
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,11 +20,12 @@ public class Session {
     private boolean paid;
     private String notes;
     private double cost;
-    private String sessionTime;
+
     // payment info
     private UUID paymentMethodID;
     private Date paymentDate;
     private double paymentAmount;
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("H:MM a");
     //TODO:  signature object
 
 
@@ -111,8 +113,10 @@ public class Session {
         this.location = location;
     }
 
-    public Date getCompletedDate() {
-        return completedDate;
+    public String  getCompletedDate() {
+        if (completedDate != null)
+            return DateFormat.getDateInstance(DateFormat.MEDIUM).format(this.completedDate);
+        else return null;
     }
 
     public void setCompletedDate(Date completedDate) {
@@ -136,15 +140,20 @@ public class Session {
     }
 
     public String getSessionDate() {
-        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(this.sessionDateTime);
+
+                if (sessionDateTime != null)
+                return DateFormat.getDateInstance(DateFormat.MEDIUM).format(this.sessionDateTime);
+        else return null;
     }
 
     public String getSessionTime() {
-        return sessionTime;
+
+        if(sessionDateTime != null)
+            return timeFormat.format(sessionDateTime);
+
+        return null;
     }
 
-    public void setSessionTime(String sessionTime) {
-        this.sessionTime = sessionTime;
-    }
+
 }
 

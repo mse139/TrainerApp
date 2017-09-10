@@ -45,4 +45,8 @@ public class CustomerList {
         }
         return null;
     }
+
+    public void addCustomer(Customer c) {
+        mCustomerList.add(c);
+    }
 }

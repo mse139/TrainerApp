@@ -67,4 +67,21 @@ public class SessionList {
 
         return null;
     }
+
+    // search list for given customer id - returns a list
+    public List<Session> getSessionsByCustomer(UUID customerID) {
+        List<Session> list = new ArrayList<>();
+
+        for(Session session: mSessionList) {
+            if(session.getCustomerID().equals(customerID))
+                list.add(session);
+        }
+
+        return list;
+    }
+
+    // add a new session
+    public void addSession(Session s) {
+        mSessionList.add(s);
+    }
 }

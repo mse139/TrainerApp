@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
@@ -18,7 +20,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -33,7 +38,12 @@ public class SessionFragment extends Fragment {
 
     private static final String TAG = "SessionFragment";
     private static final String ARG_SESSION_ID = "sessionID";
+    private static final int REQUEST_SESSION_DATE = 0;
+    private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_TIME = "DialogTime";
     private static final int REQUEST_TIME = 1;
+    private static final int REQUEST_COMPLETE_DATE = 2;
+    private SimpleDateFormat mTimeFormat;
 
     // UI controls
     private TextView mDatePicker;
@@ -45,6 +55,7 @@ public class SessionFragment extends Fragment {
     private EditText mNotes;
     private EditText mLocation;
     private boolean newSession;
+    private TextView mSessionCompleteDate;
 
     // onCreate method
     @Override
@@ -69,6 +80,9 @@ public class SessionFragment extends Fragment {
             newSession = true;
         }
 
+        // setup the time format
+        mTimeFormat = new SimpleDateFormat("h:mm a");
+
     }
 
 
@@ -88,10 +102,11 @@ public class SessionFragment extends Fragment {
         mCustomer   = (Spinner) v.findViewById(R.id.session_customer_spinner);
         mNotes = (EditText)v.findViewById(R.id.session_notes);
         mLocation  = (EditText)v.findViewById(R.id.session_location_text);
+        mSessionCompleteDate = (TextView) v.findViewById(R.id.session_date_complete_text);
 
         if (!newSession){
             // set values if mSession has them
-            mDatePicker.setText(mSession.getSessionDate());
+            setDate();
             mNotes.setText(mSession.getNotes());
             mLocation.setText(mSession.getLocation());
         }
@@ -108,9 +123,8 @@ public class SessionFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.d(TAG,"mDatePicker touched");
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getFragmentManager(),"datePicker");
-                //TODO - show calendar
+
+                showDatePicker(REQUEST_SESSION_DATE);
                 return false;
             }
         });
@@ -119,10 +133,11 @@ public class SessionFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.d(TAG,"mTimePicker touched");
-                DialogFragment timePicker = new TimePickerFragment();
-
-                timePicker.show(getFragmentManager(),"timePicker");
-                //TODO show time picker
+                FragmentManager fm = getFragmentManager();
+                TimePickerFragment dialog = TimePickerFragment.newInstance(mSession.getSessionDateTime());
+                // set the target to get the resulting time
+                dialog.setTargetFragment(SessionFragment.this,REQUEST_TIME);
+                dialog.show(fm,DIALOG_TIME);
                 return false;
             }
         });
@@ -132,7 +147,13 @@ public class SessionFragment extends Fragment {
             public void onClick(View view) {
                 Log.d(TAG,"mPayButton clicked");
 
-                //TODO show the payment screen
+                // create the payment session and show the screen
+                SessionPaymentFragment fragment = SessionPaymentFragment.newInstance(mSession.getSessionID());
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.addToBackStack(null);
+                ft.replace(R.id.main_fragment_container,fragment);
+                ft.commit();
             }
         });
 
@@ -185,6 +206,16 @@ public class SessionFragment extends Fragment {
             }
         });
 
+        mSessionCompleteDate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // show the date picker
+                showDatePicker(REQUEST_COMPLETE_DATE);
+                return false;
+            }
+        });
+
+
 
 
 
@@ -193,6 +224,39 @@ public class SessionFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode != Activity.RESULT_OK)
+            return;
+
+        if(requestCode == REQUEST_SESSION_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mSession.setSessionDateTime(date);
+            setDate();
+
+        }
+        if(requestCode == REQUEST_TIME) {
+            Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            mSession.setSessionDateTime(date);
+            setTime();
+
+        }
+        if(requestCode == REQUEST_COMPLETE_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mSession.setComplete(true);
+            mSession.setCompletedDate(date);
+            mSessionCompleteDate.setText(mSession.getCompletedDate());
+        }
+    }
+
+    private void setDate() {
+        mDatePicker.setText(mSession.getSessionDate());
+    }
+
+    private void setTime() {
+        mTimePicker.setText(mTimeFormat.format(mSession.getSessionDateTime()));
+    }
 
 
     // newInstance - returns a new session with the sessionID
@@ -206,5 +270,14 @@ public class SessionFragment extends Fragment {
         }
 
         return fragment;
+    }
+
+    private void showDatePicker(int request) {
+        FragmentManager fm = getFragmentManager();
+        DatePickerFragment dialog =  DatePickerFragment.newInstance(mSession.getSessionDateTime());
+        // set sessionFragment as the target to get the result
+        dialog.setTargetFragment(SessionFragment.this,request);
+        dialog.show(fm,DIALOG_DATE);
+
     }
 }
