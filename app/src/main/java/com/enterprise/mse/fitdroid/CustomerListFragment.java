@@ -27,6 +27,7 @@ public class CustomerListFragment extends Fragment {
 
     private RecyclerView mCustomerRecyclerView;
     private CustomerAdapter mAdapter;
+
     private static final String TAG = "CustomerListFragment";
     private final static String ARG_CUSTOMER = "customerID";
     private int lastClickedRow = -1;
@@ -65,9 +66,12 @@ public class CustomerListFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.d(TAG,"onresume Called");
         super.onResume();
         updateUI();
     }
+
+
 
     private void updateUI() {
         // get list instance
@@ -85,6 +89,7 @@ public class CustomerListFragment extends Fragment {
 
             if(lastClickedRow >=0){
                 mAdapter.notifyItemChanged(lastClickedRow);
+
                 lastClickedRow = -1;
             } else
                 mAdapter.notifyDataSetChanged();

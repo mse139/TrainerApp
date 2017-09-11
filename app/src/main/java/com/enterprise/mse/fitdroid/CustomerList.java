@@ -66,6 +66,14 @@ public class CustomerList {
 
         return customers;}
 
+    //update a customer
+    public void updateCustomer(Customer customer) {
+        ContentValues values = getContentValues(customer);
+
+        mCustomerDB.update(CustomerSchema.CustomerTable.NAME, values,CustomerSchema.CustomerTable.Cols.UUID+"=?",
+                new String[] {customer.getCustomerID().toString()});
+    }
+
     // search the list for a customer
     public Customer getCustomer(UUID id) {
 

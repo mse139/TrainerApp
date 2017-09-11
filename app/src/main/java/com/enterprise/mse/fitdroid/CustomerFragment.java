@@ -171,6 +171,13 @@ public class CustomerFragment extends Fragment {
     }
 
 
+    //onPause:  save info to DB
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause called");
+        CustomerList.getCustomerList(getActivity()).updateCustomer(mCustomer);
+    }
 
     // return new instance using customer id
     public static CustomerFragment newInstance(UUID customerID) {
