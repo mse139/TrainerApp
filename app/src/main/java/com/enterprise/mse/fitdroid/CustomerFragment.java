@@ -163,6 +163,7 @@ public class CustomerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"save button clicked");
+
             }
         });
 

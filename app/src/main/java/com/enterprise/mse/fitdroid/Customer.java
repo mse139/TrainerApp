@@ -59,9 +59,13 @@ public class Customer {
     }
 
     public Customer() {
-        customerID = UUID.randomUUID();
+        this(UUID.randomUUID());
     }
 
+
+    public Customer(UUID id) {
+        this.customerID = id;
+    }
     public Customer(String name) {
         this();
         this.customerName = name;

@@ -63,20 +63,39 @@ public class CustomerListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         // get list instance
         CustomerList customerList = CustomerList.getCustomerList(getActivity());
+        // get the actual list of customers
         List<Customer> customers = customerList.getCustomers();
 
-        mAdapter = new CustomerAdapter(customers);
+        if(mAdapter == null) {
+            mAdapter = new CustomerAdapter(customers);
+            mCustomerRecyclerView.setAdapter(mAdapter);
+        } else {
+            mCustomerRecyclerView.setAdapter(mAdapter);
+            // reset the customer list
+            mAdapter.setCustomers(customers);
 
+            if(lastClickedRow >=0){
+                mAdapter.notifyItemChanged(lastClickedRow);
+                lastClickedRow = -1;
+            } else
+                mAdapter.notifyDataSetChanged();
 
-        mCustomerRecyclerView.setAdapter(mAdapter);
-
-        if(lastClickedRow >=0){
-            mAdapter.notifyItemChanged(lastClickedRow);
-            lastClickedRow = -1;
         }
+
+
+
+
+
+
 
 
 
@@ -159,6 +178,10 @@ public class CustomerListFragment extends Fragment {
                 return mCustomers.size();
             }
 
+            public void setCustomers(List<Customer> customers) {
+                mCustomers = customers;
+
+            }
 
         }
 
