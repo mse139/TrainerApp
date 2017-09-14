@@ -74,6 +74,7 @@ public class CustomerListFragment extends Fragment {
 
 
     private void updateUI() {
+        Log.d(TAG,"updateUI called");
         // get list instance
         CustomerList customerList = CustomerList.getCustomerList(getActivity());
         // get the actual list of customers
@@ -83,9 +84,9 @@ public class CustomerListFragment extends Fragment {
             mAdapter = new CustomerAdapter(customers);
             mCustomerRecyclerView.setAdapter(mAdapter);
         } else {
-            mCustomerRecyclerView.setAdapter(mAdapter);
             // reset the customer list
             mAdapter.setCustomers(customers);
+            mCustomerRecyclerView.setAdapter(mAdapter);
 
             if(lastClickedRow >=0){
                 mAdapter.notifyItemChanged(lastClickedRow);
@@ -95,13 +96,6 @@ public class CustomerListFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
 
         }
-
-
-
-
-
-
-
 
 
     }

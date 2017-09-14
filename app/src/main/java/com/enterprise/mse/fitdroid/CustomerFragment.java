@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -139,6 +140,7 @@ public class CustomerFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG,"setting phone number: " + charSequence.toString());
                 mCustomer.setPhoneNumber(charSequence.toString());
             }
 
@@ -163,6 +165,8 @@ public class CustomerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"save button clicked");
+                CustomerList.getCustomerList(getActivity()).updateCustomer(mCustomer);
+
 
             }
         });

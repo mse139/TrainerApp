@@ -1,5 +1,6 @@
 package com.enterprise.mse.fitdroid;
 
+import java.io.Console;
 import java.util.UUID;
 
 /**
@@ -70,4 +71,6 @@ public class Customer {
         this();
         this.customerName = name;
     }
+
+
 }

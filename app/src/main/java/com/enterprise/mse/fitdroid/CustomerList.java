@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class CustomerList {
 
     // instance variable
     private static CustomerList sCustomerList;
+    private static final String TAG = "CustomerList";
 
     // list of customers
    // private List<Customer> mCustomerList;
@@ -55,6 +58,7 @@ public class CustomerList {
         try {
             cursor.moveToFirst();
             while(!cursor.isAfterLast()) {
+                Log.d(TAG,"adding a customer to list");
                 customers.add(cursor.getCustomer());
                 cursor.moveToNext();
             }
@@ -68,10 +72,24 @@ public class CustomerList {
 
     //update a customer
     public void updateCustomer(Customer customer) {
+        Log.d(TAG,"updateCustomer called for : "+ customer.getCustomerID().toString());
+
+
         ContentValues values = getContentValues(customer);
 
-        mCustomerDB.update(CustomerSchema.CustomerTable.NAME, values,CustomerSchema.CustomerTable.Cols.UUID+"=?",
-                new String[] {customer.getCustomerID().toString()});
+        String idString = customer.getCustomerID().toString();
+
+      int result = mCustomerDB.update(CustomerSchema.CustomerTable.NAME,
+                values,
+                CustomerSchema.CustomerTable.Cols.UUID+"=?",
+                new String[] {idString});
+
+        String text = (result == 0) ? mContext.getString(R.string.save_failure) :
+                mContext.getString(R.string.save_success);
+
+        Toast.makeText(mContext,text,Toast.LENGTH_SHORT)
+                .show();
+
     }
 
     // search the list for a customer
@@ -125,4 +143,6 @@ public class CustomerList {
 
         return values;
     }
+
+
 }
