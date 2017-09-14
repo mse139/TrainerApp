@@ -27,6 +27,7 @@ public class CustomerListFragment extends Fragment {
 
     private RecyclerView mCustomerRecyclerView;
     private CustomerAdapter mAdapter;
+
     private static final String TAG = "CustomerListFragment";
     private final static String ARG_CUSTOMER = "customerID";
     private int lastClickedRow = -1;
@@ -63,21 +64,38 @@ public class CustomerListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        Log.d(TAG,"onresume Called");
+        super.onResume();
+        updateUI();
+    }
+
+
+
     private void updateUI() {
+        Log.d(TAG,"updateUI called");
         // get list instance
         CustomerList customerList = CustomerList.getCustomerList(getActivity());
+        // get the actual list of customers
         List<Customer> customers = customerList.getCustomers();
 
-        mAdapter = new CustomerAdapter(customers);
+        if(mAdapter == null) {
+            mAdapter = new CustomerAdapter(customers);
+            mCustomerRecyclerView.setAdapter(mAdapter);
+        } else {
+            // reset the customer list
+            mAdapter.setCustomers(customers);
+            mCustomerRecyclerView.setAdapter(mAdapter);
 
+            if(lastClickedRow >=0){
+                mAdapter.notifyItemChanged(lastClickedRow);
 
-        mCustomerRecyclerView.setAdapter(mAdapter);
+                lastClickedRow = -1;
+            } else
+                mAdapter.notifyDataSetChanged();
 
-        if(lastClickedRow >=0){
-            mAdapter.notifyItemChanged(lastClickedRow);
-            lastClickedRow = -1;
         }
-
 
 
     }
@@ -159,6 +177,10 @@ public class CustomerListFragment extends Fragment {
                 return mCustomers.size();
             }
 
+            public void setCustomers(List<Customer> customers) {
+                mCustomers = customers;
+
+            }
 
         }
 

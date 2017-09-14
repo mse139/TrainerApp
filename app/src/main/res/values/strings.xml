@@ -60,4 +60,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="logout_message">Logging Out</string>
+
+    <string name="save_success">Saved Successfully!</string>
+    <string name="save_failure">Save Failed!</string>
 </resources>
