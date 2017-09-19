@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class CustomerFragment extends Fragment {
     private EditText mCustomerAddr;
     private EditText mCustomerPhone;
     private Button mSaveButton;
-    private ImageView mAddImage;
+    private ImageButton mAddImage;
 
 
     // onCreate method
@@ -68,7 +69,7 @@ public class CustomerFragment extends Fragment {
         mCustomerEmail = (EditText) v.findViewById(R.id.customer_email_input);
         mCustomerAddr = (EditText) v.findViewById(R.id.customer_address_input);
         mCustomerPhone = (EditText) v.findViewById(R.id.customer_phone_input);
-        mAddImage = (ImageView) v.findViewById(R.id.customer_add_img);
+        mAddImage = (ImageButton) v.findViewById(R.id.customer_add_img);
         mSaveButton = (Button) v.findViewById(R.id.customer_save_btn);
 
         // if existing customer, fill the values
@@ -151,13 +152,10 @@ public class CustomerFragment extends Fragment {
         });
 
         // take photo button
-        mAddImage.setOnTouchListener(new View.OnTouchListener() {
+        mAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.d(TAG,"add image button touched");
-                //TODO integrate photo taking
-
-                return false;
+            public void onClick(View view) {
+                Log.d(TAG,"photo button clicked");
             }
         });
 
