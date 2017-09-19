@@ -1,6 +1,9 @@
 package com.enterprise.mse.fitdroid;
 
+import android.net.Uri;
+
 import java.io.Console;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,6 +18,7 @@ public class Customer {
     private UUID    customerID;
     private String address;
     private String email;
+    
 
     public String getCustomerName() {
         return customerName;
@@ -71,6 +75,8 @@ public class Customer {
         this();
         this.customerName = name;
     }
+
+
 
 
 }
