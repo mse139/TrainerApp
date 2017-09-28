@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -142,6 +143,13 @@ public class CustomerList {
         values.put(CustomerSchema.CustomerTable.Cols.PHONE_NUMBER,customer.getPhoneNumber());
 
         return values;
+    }
+
+    public File getPhotoFile(Customer customer ) {
+
+        File fileDir = mContext.getFilesDir();
+        return new File(fileDir,customer.getPhotoFileName());
+
     }
 
 

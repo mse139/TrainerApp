@@ -63,4 +63,8 @@
 
     <string name="save_success">Saved Successfully!</string>
     <string name="save_failure">Save Failed!</string>
+
+    <string name="photo_permission_denied">Photo permission denied.  Unable to take photo.</string>
+
+    <string name="email_default_subject">A Note from Your Trainer</string>
 </resources>

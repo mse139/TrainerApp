@@ -18,6 +18,8 @@ public class Customer {
     private UUID    customerID;
     private String address;
     private String email;
+
+
     
 
     public String getCustomerName() {
@@ -76,7 +78,9 @@ public class Customer {
         this.customerName = name;
     }
 
-
+    public String getPhotoFileName()  {
+        return "IMG_" + getCustomerID().toString() + ".jpg";
+    }
 
 
 }
