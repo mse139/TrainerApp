@@ -44,6 +44,16 @@
             android:name=".CustomerPagerActivity"
             android:label="@string/title_activity_customer_pager"
             android:theme="@style/AppTheme"/>
+
+        <provider
+            android:authorities="com.enterprise.mse.fitdroid.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files"/>
+        </provider>
     </application>
 
 </manifest>
